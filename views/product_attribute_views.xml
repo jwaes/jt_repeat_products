@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_attribute_view_form_inherit_product" model="ir.ui.view">
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="arch" type="xml">
+            <field name="html_color" position="after">
+                <field name="color_type" attrs="{'column_invisible': [('parent.display_type', '!=', 'color')]}"/>            
+                <field name="css_style" attrs="{'column_invisible': [('parent.display_type', '!=', 'color')], 'readonly':[('color_type','!=','css')]}" />                
+                <field name="pattern_image" attrs="{'column_invisible': [('parent.display_type', '!=', 'color')], 'readonly':[('color_type','!=','pattern')]}" widget="image" class="oe_avatar"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

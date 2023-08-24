@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_repeat_product_template" model="ir.actions.report">
+        <field name="name">Repeat product report</field>
+        <field name="model">product.template</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jt_repeat_products.report_repeat_product</field>
+        <field name="report_file">jt_repeat_products.report_repeat_product</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_repeat_product" name="Repeat Product">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="jt_repeat_products.report_layout">
+                    <div class="page">
+
+                        <div class="row mb-3">
+                            <div class="col-9">
+                                <h1 t-esc="o.name" />
+                                <p t-esc="o.description_sale" />
+                            </div>
+                            <div class="col-3">
+                                <span t-field="o.image_1024" t-options-widget="&quot;image&quot;" />
+                            </div>
+                        </div>
+                        <t t-if="o.product_variant_count == 1">
+                            <t t-call="jt_repeat_products.variant_detail">
+                                <t t-set="variant" t-value="o.product_variant_id" />
+                                <t t-set="single" t-value="True" />
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="o.product_variant_ids" t-as="variant">
+                                <t t-call="jt_repeat_products.variant_detail" />
+                            </t>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="variant_detail">
+        <div class="border-bottom mb-2 pb-2">
+            <h3 t-esc="variant.with_context(display_default_code=False).display_name"
+                t-if="not single" />
+            <div class="row">
+                <div class="col-2">
+                    <t t-if="variant.product_template_variant_value_ids">
+                    <t t-foreach="variant.product_template_variant_value_ids" t-as="attribute_value">
+                        <t t-if="attribute_value.attribute_id.display_type == 'color'">
+                            <div class="embed-responsive embed-responsive-1by1">
+                                <t t-if="attribute_value.is_pattern">
+                                    <span t-field="attribute_value.pattern_image"
+                                        t-options-widget="&quot;image&quot;"
+                                        class="embed-responsive-item" />
+                                </t>
+                                <t t-elif="attribute_value.is_css">
+                                    <div
+                                        t-attf-class="embed-responsive-item {attribute_value.css_style}"
+                                        class="embed-responsive-item" />
+                                </t>
+                                <t t-else="">
+                                    <div
+                                        t-attf-style="background-color:#{attribute_value.html_color}"
+                                        class="embed-responsive-item" />
+                                </t>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                </div>
+                <div class="col-5">
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <th>Code</th>
+                            <td>
+                                <span t-esc="variant.default_code" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>GTIN-13/EAN-13</th>
+                            <td>
+                                <span t-esc="variant.barcode" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Unit</th>
+                            <td>
+                                <span t-field="variant.uom_id" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-5">
+                    <table class="table table-sm table-borderless">
+                        <!-- <tr>
+                            <th>Volume</th>
+                            <td>
+                                <span t-field="variant.volume" />
+                                <span t-field="variant.volume_uom_name" />
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <th>Weight</th>
+                            <td>
+                                <span t-field="variant.weight" />
+                                <span t-field="variant.weight_uom_name" />
+                            </td>
+                        </tr>
+                        <tr t-if="variant.thickness">
+                            <th>Thickness</th>
+                            <td>
+                                <span t-field="variant.weight" />
+                                <span>mm</span>
+                            </td>
+                        </tr>
+                        <tr
+                            t-if="variant.bottle_equivalent and variant.recycled_material_id != False">
+                            <th>Bottle equivalent</th>
+                            <td>
+                                <span t-field="variant.bottle_equivalent" />
+                                <span>bottles</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div t-if="variant.packaging_ids" class="row">
+                <div class="col-2"></div>
+                <div class="col-10">
+                    <h5>Packaging</h5>
+                    <table class="table table-bordered small">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Contained Quantity</th>
+                                <th>GTIN-14</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="variant.packaging_ids" t-as="packaging">
+                                <tr t-if="packaging.sales">
+                                <td>
+                                    <span t-field="packaging.name" />
+                                </td>
+                                <td>
+                                    <span t-field="packaging.qty" />
+                                    <span t-field="packaging.product_uom_id" />
+                                </td>
+                                <td>
+                                    <span t-field="packaging.barcode" />
+                                </td>
+                            </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_layout">
+
+        <t t-if="not o" t-set="o" t-value="doc" />
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id" />
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()" />
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company" />
+            </t>
+        </t>
+
+        <div t-attf-class="o_company_#{company.id}_layout header" t-att-style="report_header_style">
+            <div class="row">
+                <div class="col-4">
+                    <img class="img-fluid" src="/jt_repeat_products/static/src/img/EauzonLogo.png" />
+                </div>
+                <div class="col-auto">
+
+                </div>
+                <div class="col-4">
+                    <img class="img-fluid" src="/jt_repeat_products/static/src/img/RepeatLogo.png" />
+                </div>
+            </div>
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <t t-out="0" />
+        </div>
+
+        <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
+            <div class="text-center">
+                <ul class="list-inline">
+                    <div t-field="company.report_footer" />
+                </ul>
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    <span class="page" /> / <span class="topage" />
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+</odoo>
