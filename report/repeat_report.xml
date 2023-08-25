@@ -18,7 +18,7 @@
                 <t t-call="jt_repeat_products.report_layout">
                     <div class="page">
 
-                        <div class="row mb-3">
+                        <div class="row mb-4">
                             <div class="col-9">
                                 <h1 t-esc="o.name" />
                                 <p t-esc="o.description_sale" />
@@ -45,7 +45,7 @@
     </template>
 
     <template id="variant_detail">
-        <div class="border-bottom mb-2 pb-2">
+        <div class="my-4">
             <h3 t-esc="variant.with_context(display_default_code=False).display_name"
                 t-if="not single" />
             <div class="row">
@@ -74,18 +74,18 @@
                     </t>
                 </t>
                 </div>
-                <div class="col-5">
+                <div class="col-7">
                     <table class="table table-sm table-borderless">
                         <tr>
                             <th>Code</th>
                             <td>
-                                <span t-esc="variant.default_code" />
+                                <span t-esc="variant.default_code" class="text-monospace"/>
                             </td>
                         </tr>
                         <tr>
                             <th>GTIN-13/EAN-13</th>
                             <td>
-                                <span t-esc="variant.barcode" />
+                                <span t-esc="variant.barcode" class="text-monospace"/>
                             </td>
                         </tr>
                         <tr>
@@ -93,10 +93,10 @@
                             <td>
                                 <span t-field="variant.uom_id" />
                             </td>
-                        </tr>
+                        </tr>                   
                     </table>
                 </div>
-                <div class="col-5">
+                <div class="col-3">
                     <table class="table table-sm table-borderless">
                         <!-- <tr>
                             <th>Volume</th>
@@ -108,25 +108,24 @@
                         <tr>
                             <th>Weight</th>
                             <td>
-                                <span t-field="variant.weight" />
+                                <span t-field="variant.weight" t-options='{"widget": "float", "precision": 2}'/>
                                 <span t-field="variant.weight_uom_name" />
                             </td>
                         </tr>
                         <tr t-if="variant.thickness">
                             <th>Thickness</th>
                             <td>
-                                <span t-field="variant.weight" />
+                                <span t-field="variant.thickness" t-options='{"widget": "float", "precision": 0}'/>
                                 <span>mm</span>
                             </td>
                         </tr>
                         <tr
                             t-if="variant.bottle_equivalent and variant.recycled_material_id != False">
-                            <th>Bottle equivalent</th>
-                            <td>
-                                <span t-field="variant.bottle_equivalent" />
-                                <span>bottles</span>
+                            <th><i class="fa fa-recycle" style="color:#607568"></i></th>
+                            <td style="color:#607568" class="text-right">
+                                <span t-field="variant.bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/> bottles
                             </td>
-                        </tr>
+                        </tr> 
                     </table>
                 </div>
             </div>
@@ -140,6 +139,7 @@
                                 <th>Type</th>
                                 <th>Contained Quantity</th>
                                 <th>GTIN-14</th>
+                                <th>Dimensions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,11 +149,20 @@
                                     <span t-field="packaging.name" />
                                 </td>
                                 <td>
-                                    <span t-field="packaging.qty" />
+                                    <span t-field="packaging.qty" t-options='{"widget": "float", "precision": 0}'/>
                                     <span t-field="packaging.product_uom_id" />
                                 </td>
                                 <td>
-                                    <span t-field="packaging.barcode" />
+                                    <span t-field="packaging.barcode" class="text-monospace"/>
+                                </td>
+                                <td>
+                                    <t t-if="packaging.package_type_id">
+                                        <span t-field="packaging.package_type_id.packaging_length" t-options='{"widget": "float", "precision": 0}'/> x
+                                        <span t-field="packaging.package_type_id.width" t-options='{"widget": "float", "precision": 0}'/> x
+                                        <span t-field="packaging.total_height" t-options='{"widget": "float", "precision": 0}'/> 
+                                        <span t-field="packaging.package_type_id.length_uom_name"/>
+                                    </t>
+                                    (<span t-field="packaging.weight" t-options='{"widget": "float", "precision": 1}'/> kg)
                                 </td>
                             </tr>
                             </t>

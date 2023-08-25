@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_package_type_form_inherit" model="ir.ui.view">
+        <field name="model">stock.package.type</field>
+        <field name="inherit_id" ref="stock.stock_package_type_form" />
+        <field name="arch" type="xml">
+            <field name="barcode" position="before">
+                <label for="tarra_weight" />
+                <div class="o_row" name="tarra_weight">
+                    <field name="tarra_weight" />
+                    <span>
+                        <field name="weight_uom_name" />
+                    </span>
+                </div>
+                <field name="description" />
+            </field>
+            
+        </field>
+    </record>
+
+</odoo>
