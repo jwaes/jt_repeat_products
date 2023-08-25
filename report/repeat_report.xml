@@ -121,8 +121,8 @@
                         </tr>
                         <tr
                             t-if="variant.bottle_equivalent and variant.recycled_material_id != False">
-                            <th><i class="fa fa-recycle" style="color:#607568"></i></th>
-                            <td style="color:#607568" class="text-right">
+                            <th class="text-right"><i class="fa fa-recycle" style="color:#607568"></i></th>
+                            <td style="color:#607568">
                                 <span t-field="variant.bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/> bottles
                             </td>
                         </tr> 
@@ -157,10 +157,10 @@
                                 </td>
                                 <td>
                                     <t t-if="packaging.package_type_id">
-                                        <span t-field="packaging.package_type_id.packaging_length" t-options='{"widget": "float", "precision": 0}'/> x
-                                        <span t-field="packaging.package_type_id.width" t-options='{"widget": "float", "precision": 0}'/> x
-                                        <span t-field="packaging.total_height" t-options='{"widget": "float", "precision": 0}'/> 
-                                        <span t-field="packaging.package_type_id.length_uom_name"/>
+                                        <span t-field="packaging.package_type_id.packaging_length" t-options='{"widget": "char", "precision": 0}'/> x
+                                        <span t-field="packaging.package_type_id.width" t-options='{"widget": "char", "precision": 0}'/> x
+                                        <span t-field="packaging.total_height" t-options='{"widget": "char", "precision": 0}'/> 
+                                        mm
                                     </t>
                                     (<span t-field="packaging.weight" t-options='{"widget": "float", "precision": 1}'/> kg)
                                 </td>
