@@ -28,14 +28,18 @@
                             </div>
                         </div>
                         <t t-if="o.product_variant_count == 1">
-                            <t t-call="jt_repeat_products.variant_detail">
-                                <t t-set="variant" t-value="o.product_variant_id" />
-                                <t t-set="single" t-value="True" />
+                            <t t-if="o.product_variant_id.is_public_visible">
+                                <t t-call="jt_repeat_products.variant_detail">
+                                    <t t-set="variant" t-value="o.product_variant_id" />
+                                    <t t-set="single" t-value="True" />
+                                </t>
                             </t>
                         </t>
                         <t t-else="">
                             <t t-foreach="o.product_variant_ids" t-as="variant">
-                                <t t-call="jt_repeat_products.variant_detail" />
+                                <t t-if="variant.public_visible">
+                                    <t t-call="jt_repeat_products.variant_detail" />
+                                </t>
                             </t>
                         </t>
                     </div>
@@ -51,41 +55,42 @@
             <div class="row">
                 <div class="col-2">
                     <t t-if="variant.product_template_variant_value_ids">
-                    <t t-foreach="variant.product_template_variant_value_ids" t-as="attribute_value">
-                        <t t-if="attribute_value.attribute_id.display_type == 'color'">
-                            <div class="embed-responsive embed-responsive-1by1">
-                                <t t-if="attribute_value.is_pattern">
-                                    <span t-field="attribute_value.pattern_image"
-                                        t-options-widget="&quot;image&quot;"
-                                        class="embed-responsive-item" />
-                                </t>
-                                <t t-elif="attribute_value.is_css">
-                                    <div
-                                        t-attf-class="embed-responsive-item {attribute_value.css_style}"
-                                        class="embed-responsive-item" />
-                                </t>
-                                <t t-else="">
-                                    <div
-                                        t-attf-style="background-color:#{attribute_value.html_color}"
-                                        class="embed-responsive-item" />
-                                </t>
-                            </div>
+                        <t t-foreach="variant.product_template_variant_value_ids"
+                            t-as="attribute_value">
+                            <t t-if="attribute_value.attribute_id.display_type == 'color'">
+                                <div class="embed-responsive embed-responsive-1by1">
+                                    <t t-if="attribute_value.is_pattern">
+                                        <span t-field="attribute_value.pattern_image"
+                                            t-options-widget="&quot;image&quot;"
+                                            class="embed-responsive-item" />
+                                    </t>
+                                    <t t-elif="attribute_value.is_css">
+                                        <div
+                                            t-attf-class="embed-responsive-item {attribute_value.css_style}"
+                                            class="embed-responsive-item" />
+                                    </t>
+                                    <t t-else="">
+                                        <div
+                                            t-attf-style="background-color:#{attribute_value.html_color}"
+                                            class="embed-responsive-item" />
+                                    </t>
+                                </div>
+                            </t>
                         </t>
                     </t>
-                </t>
                 </div>
                 <div class="col-7">
                     <table class="table table-sm table-borderless">
                         <tr>
                             <th>Code</th>
                             <td>
-                                <span t-esc="variant.default_code" class="text-monospace"/>
+                                <span t-esc="variant.default_code" class="text-monospace" />
                             </td>
                         </tr>
                         <tr>
                             <th>GTIN-13/EAN-13</th>
                             <td>
-                                <span t-esc="variant.barcode" class="text-monospace"/>
+                                <span t-esc="variant.barcode" class="text-monospace" />
                             </td>
                         </tr>
                         <tr>
@@ -93,7 +98,7 @@
                             <td>
                                 <span t-field="variant.uom_id" />
                             </td>
-                        </tr>                   
+                        </tr>
                     </table>
                 </div>
                 <div class="col-3">
@@ -108,24 +113,28 @@
                         <tr>
                             <th>Weight</th>
                             <td>
-                                <span t-field="variant.weight" t-options='{"widget": "float", "precision": 2}'/>
+                                <span t-field="variant.weight"
+                                    t-options='{"widget": "float", "precision": 2}' />
                                 <span t-field="variant.weight_uom_name" />
                             </td>
                         </tr>
                         <tr t-if="variant.thickness">
                             <th>Thickness</th>
                             <td>
-                                <span t-field="variant.thickness" t-options='{"widget": "float", "precision": 0}'/>
+                                <span t-field="variant.thickness"
+                                    t-options='{"widget": "float", "precision": 0}' />
                                 <span>mm</span>
                             </td>
                         </tr>
                         <tr
                             t-if="variant.bottle_equivalent and variant.recycled_material_id != False">
-                            <th class="text-right"><i class="fa fa-recycle" style="color:#607568"></i></th>
+                            <th class="text-right">
+                                <i class="fa fa-recycle" style="color:#607568"></i>
+                            </th>
                             <td style="color:#607568">
-                                <span t-field="variant.bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/> bottles
-                            </td>
-                        </tr> 
+                                <span t-field="variant.bottle_equivalent"
+                                    t-options='{"widget": "float", "precision": 0}' /> bottles </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -145,26 +154,29 @@
                         <tbody>
                             <t t-foreach="variant.packaging_ids" t-as="packaging">
                                 <tr t-if="packaging.sales">
-                                <td>
-                                    <span t-field="packaging.name" />
-                                </td>
-                                <td>
-                                    <span t-field="packaging.qty" t-options='{"widget": "float", "precision": 0}'/>
-                                    <span t-field="packaging.product_uom_id" />
-                                </td>
-                                <td>
-                                    <span t-field="packaging.barcode" class="text-monospace"/>
-                                </td>
-                                <td>
-                                    <t t-if="packaging.package_type_id">
-                                        <span t-field="packaging.package_type_id.packaging_length" t-options='{"widget": "char", "precision": 0}'/> x
-                                        <span t-field="packaging.package_type_id.width" t-options='{"widget": "char", "precision": 0}'/> x
-                                        <span t-field="packaging.total_height" t-options='{"widget": "char", "precision": 0}'/> 
-                                        mm
-                                    </t>
-                                    (<span t-field="packaging.weight" t-options='{"widget": "float", "precision": 1}'/> kg)
-                                </td>
-                            </tr>
+                                    <td>
+                                        <span t-field="packaging.name" />
+                                    </td>
+                                    <td>
+                                        <span t-field="packaging.qty"
+                                            t-options='{"widget": "float", "precision": 0}' />
+                                        <span t-field="packaging.product_uom_id" />
+                                    </td>
+                                    <td>
+                                        <span t-field="packaging.barcode" class="text-monospace" />
+                                    </td>
+                                    <td>
+                                        <t t-if="packaging.package_type_id">
+                                            <span
+                                                t-field="packaging.package_type_id.packaging_length"
+                                                t-options='{"widget": "char", "precision": 0}' /> x <span
+                                                t-field="packaging.package_type_id.width"
+                                                t-options='{"widget": "char", "precision": 0}' /> x <span
+                                                t-field="packaging.total_height"
+                                                t-options='{"widget": "char", "precision": 0}' /> mm </t>
+                                        (<span t-field="packaging.weight"
+                                            t-options='{"widget": "float", "precision": 1}' /> kg) </td>
+                                </tr>
                             </t>
                         </tbody>
                     </table>

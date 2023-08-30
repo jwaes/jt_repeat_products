@@ -11,7 +11,17 @@ class ProductTemplate(models.Model):
 
     product_variant_tag_ids = fields.Many2many('product.tag', compute='_compute_product_variant_tag_ids', string='Variant Tags')
 
-    all_product_tag_ids = fields.Many2many('product.tag', compute='_compute_all_product_tag_ids', search='_search_all_product_tag_ids',  string='All Tags')
+    all_product_tag_ids = fields.Many2many('product.tag', compute='_compute_all_product_tag_ids', search='_search_all_product_tag_ids',  string='All Variant Tags')
+
+    is_public_visible = fields.Boolean(compute='_compute_is_public_visible', string='Is Publicly Visible')
+
+    @api.depends('product_variant_ids', 'product_variant_ids.public_visible')
+    def _compute_is_public_visible(self):
+        for tmpl in self:
+            tmpl.is_public_visible = False
+            for prod in tmpl.product_variant_ids:
+                if prod.public_visible:
+                    tmpl.is_public_visible = True
     
     @api.depends('product_tag_ids', 'product_variant_tag_ids')
     def _compute_all_product_tag_ids(self):
@@ -23,7 +33,6 @@ class ProductTemplate(models.Model):
         for tmpl in self:
             for prod in tmpl.product_variant_ids:
                 tmpl.product_variant_tag_ids |= prod.additional_product_tag_ids
-
 
     def _search_all_product_tag_ids(self, operator, operand):
         if operator in expression.NEGATIVE_TERM_OPERATORS:

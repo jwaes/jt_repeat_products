@@ -7,6 +7,7 @@ class ProductProduct(models.Model):
     additional_product_tag_ids = fields.Many2many('product.tag', 'product_tag_product_product_rel', string='Variant Tags')
     all_product_tag_ids = fields.Many2many('product.tag', compute='_compute_all_product_tag_ids', search='_search_all_product_tag_ids', string="All Tags")
 
+    public_visible  = fields.Boolean('Public Visible', default=False)
 
     @api.depends('product_tag_ids', 'additional_product_tag_ids')
     def _compute_all_product_tag_ids(self):

@@ -41,6 +41,7 @@
             <field name="categ_id" position="after">
                 <field name="product_tag_ids" widget="many2many_tags"
                     options="{'color_field': 'color'}" />
+                <field name="is_public_visible"/>
             </field>
         </field>
     </record>
@@ -53,6 +54,7 @@
             <field name="categ_id" position="after">
                 <!-- <field name="product_tag_ids" /> -->
                 <field name="all_product_tag_ids" />
+                <field name="is_public_visible" />
             </field>
         </field>
     </record>
@@ -67,8 +69,8 @@
                 <field name="product_variant_tag_ids" widget="many2many_tags"
                     options="{'color_field': 'color'}" optional="hide" />
                 <field name="all_product_tag_ids" widget="many2many_tags"
-                    options="{'color_field': 'color'}" optional="show" />                    
-
+                    options="{'color_field': 'color'}" optional="show" />
+                <field name="is_public_visible" optional="hide"/>
             </field>
         </field>
     </record>
