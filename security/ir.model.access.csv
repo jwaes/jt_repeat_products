@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_jt_repeat_products_jt_repeat_products,jt_repeat_products.jt_repeat_products,model_jt_repeat_products_jt_repeat_products,base.group_user,1,1,1,1
+jt_repeat_products.access_product_tag_user,jt_repeat_products.tag.user,jt_repeat_products.model_product_tag,base.group_user,1,0,0,0
+jt_repeat_products.access_product_tag_manager,jt_repeat_products.tag.manager,jt_repeat_products.model_product_tag,base.group_system,1,1,1,1
