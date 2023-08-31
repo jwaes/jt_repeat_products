@@ -4,7 +4,7 @@ from odoo.osv import expression
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    additional_product_tag_ids = fields.Many2many('product.tag', 'product_tag_product_product_rel', string='Variant Tags')
+    additional_product_tag_ids = fields.Many2many('product.tag', 'product_tag_product_product_rel', string='Extra Variant Tags')
     all_product_tag_ids = fields.Many2many('product.tag', compute='_compute_all_product_tag_ids', search='_search_all_product_tag_ids', string="All Tags")
 
     public_visible  = fields.Boolean('Public Visible', default=False)
