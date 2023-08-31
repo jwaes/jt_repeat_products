@@ -21,7 +21,7 @@
                         <div class="row mb-4">
                             <div class="col-9">
                                 <h1 t-esc="o.name" />
-                                <p t-esc="o.description_sale" />
+                                <p t-esc="o.description_report" />
                             </div>
                             <div class="col-3">
                                 <span t-field="o.image_1024" t-options-widget="&quot;image&quot;" />

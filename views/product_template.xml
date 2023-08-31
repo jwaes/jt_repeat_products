@@ -43,6 +43,13 @@
                     options="{'color_field': 'color'}" />
                 <field name="is_public_visible"/>
             </field>
+            <xpath expr="//page[@name='sales']" position="inside">
+                <group>
+                    <group string="Report Description" name="report_description">
+                        <field colspan="2" name="description_report" nolabel="1" placeholder="This is shown on Repeat reports."/>
+                    </group>
+                </group>                
+            </xpath>
         </field>
     </record>
 

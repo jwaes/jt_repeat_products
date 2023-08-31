@@ -15,6 +15,11 @@ class ProductTemplate(models.Model):
 
     is_public_visible = fields.Boolean(compute='_compute_is_public_visible', string='Is Publicly Visible')
 
+    description_report = fields.Text(
+            'Report Description', translate=True,
+            help="A description of the Product that you want to communicate to your customers in Repeat report "
+                "This description will be shown in the Repeat reports")    
+
     @api.depends('product_variant_ids', 'product_variant_ids.public_visible')
     def _compute_is_public_visible(self):
         for tmpl in self:
