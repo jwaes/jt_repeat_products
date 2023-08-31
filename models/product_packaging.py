@@ -8,11 +8,12 @@ class ProductPackaging(models.Model):
 
     weight = fields.Float(compute='_compute_weight', string='Weight')
     total_height = fields.Float(compute='_compute_total_height', string='Total Height')
+    height_factor = fields.Float('height_factor', default='1.0', string='Height factor')
     
     @api.depends('qty', 'product_id', 'product_id.thickness', 'package_type_id', 'package_type_id.height')
     def _compute_total_height(self):
         for pp in self:
-            th = pp.qty * pp.product_id.thickness
+            th = pp.qty * pp.product_id.thickness * pp.height_factor
             if pp.package_type_id:
                 th += pp.package_type_id.height
             pp.total_height = th            

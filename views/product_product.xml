@@ -12,7 +12,7 @@
                         options="{'no_open': True, 'color_field': 'color'}" />
                     <field name="additional_product_tag_ids" widget="many2many_tags"
                         options="{'color_field': 'color', 'no_edit_color': 1}" />
-                    <field name="public_visible"/>   
+                    <field name="public_visible" />
                 </group>
             </xpath>
         </field>
@@ -31,7 +31,7 @@
             <field name="product_tag_ids" position="after">
                 <field name="additional_product_tag_ids" widget="many2many_tags"
                     options="{'color_field': 'color', 'no_edit_color': 1}" />
-                <field name="public_visible" />   
+                <field name="public_visible" />
             </field>
         </field>
     </record>
@@ -64,11 +64,21 @@
             <field name="categ_id" position="after">
                 <field name="product_tag_ids" widget="many2many_tags"
                     options="{'color_field': 'color', 'no_edit_color': 1}" optional="show" />
-                    <field name="additional_product_tag_ids" widget="many2many_tags"
-                    options="{'color_field': 'color', 'no_edit_color': 1}" optional="show" />        
-                    <field name="all_product_tag_ids" widget="many2many_tags"
-                    options="{'color_field': 'color', 'no_edit_color': 1}" optional="hide" />       
-                    <field name="public_visible" optional="hide"/>                          
+                <field name="additional_product_tag_ids" widget="many2many_tags"
+                    options="{'color_field': 'color', 'no_edit_color': 1}" optional="show" />
+                <field name="all_product_tag_ids" widget="many2many_tags"
+                    options="{'color_field': 'color', 'no_edit_color': 1}" optional="hide" />
+                <field name="public_visible" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="product_packaging_tree_view" model="ir.ui.view">
+        <field name="model">product.packaging</field>
+        <field name="inherit_id" ref="product.product_packaging_tree_view" />
+        <field name="arch" type="xml">
+            <field name="qty" position="after">
+                <field name="height_factor" optional="hide" />
             </field>
         </field>
     </record>

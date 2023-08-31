@@ -15,7 +15,7 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.8',
+    'version': '0.9',
 
     # any module necessary for this one to work correctly
     'depends': ['base','product','stock','jt_product_repeat'],
@@ -23,8 +23,6 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        # "security/product_template_rule.xml",
-        # "security/product_template_tag.xml",        
         'views/product_attribute_views.xml',
         'views/stock_package_type_view.xml',
         "views/product_template.xml",
