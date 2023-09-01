@@ -33,7 +33,7 @@ class Pricelist(models.Model):
                 'model' : 'product.pricelist',
                 'options' : json.dumps(data, default=date_utils.json_default),
                 'output_format' : 'xlsx',
-                'report_name' : 'Pricelist_' + self.env.company.name.strip()  + '_' + self.name.strip() + '_' + now.strftime('%Y%m%d') , },
+                'report_name' : 'Pricelist_' + self.env.company.name.strip().replace(" ", "")  + '_' + self.name.strip().replace(" ", "") + '_' + now.strftime('%Y%m%d') , },
             'report_type' : 'xlsx',
         }
 
@@ -210,8 +210,10 @@ class Pricelist(models.Model):
                 sheet2.write(row, cols2['fixed_price']['idx'], item.fixed_price, format_currency)
             sheet2.write(row, cols2['currency']['idx'], pricelist.currency_id.name, format_product)                            
             sheet2.write_number(row, cols2['min_qty']['idx'], item.min_quantity, format_product)  
-            sheet2.write(row, cols2['start_date']['idx'], item.date_start, format_date)
-            sheet2.write(row, cols2['end_date']['idx'],  item.date_end, format_date)
+            if item.date_start:
+                sheet2.write(row, cols2['start_date']['idx'], item.date_start, format_date)
+            if item.date_end:
+                sheet2.write(row, cols2['end_date']['idx'],  item.date_end, format_date)
             row +=1
 
 
