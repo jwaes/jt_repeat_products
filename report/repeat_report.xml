@@ -99,6 +99,18 @@
                                 <span t-field="variant.uom_id" />
                             </td>
                         </tr>
+                        <tr t-if="variant.hs_code_id">
+                            <th>H.S. Code</th>
+                            <td>
+                                <span t-field="variant.hs_code_id.local_code" />
+                            </td>
+                        </tr> 
+                        <tr t-if="variant.origin_country_id">
+                            <th>Origin</th>
+                            <td>
+                                <span t-field="variant.origin_country_id.name" />
+                            </td>
+                        </tr>                                               
                     </table>
                 </div>
                 <div class="col-3">
