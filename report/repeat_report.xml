@@ -137,7 +137,7 @@
                         </tr>
                         <tr
                             t-if="variant.bottle_equivalent and variant.recycled_material_id != False">
-                            <th class="text-right">
+                            <th class="text-end">
                                 <i class="fa fa-recycle" style="color:#607568"></i>
                             </th>
                             <td style="color:#607568">
