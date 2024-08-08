@@ -143,7 +143,7 @@ class Pricelist(models.Model):
                                 sheet.write(row, columns['barcode']['idx'], product.barcode, format_product)
                                 sheet.write(row, columns['unit']['idx'], product.uom_id.name, format_product)
                                 _logger.info('moq is %s', packaging.qty)
-                                price = pricelist.get_product_price(product, packaging.qty, False)
+                                price = pricelist._get_product_price(product, packaging.qty)
                                 _logger.info('price is %s', price)
                                 sheet.write(row, columns['price']['idx'], price, format_currency)
                                 sheet.write(row, columns['currency']['idx'], pricelist.currency_id.name, format_product)
