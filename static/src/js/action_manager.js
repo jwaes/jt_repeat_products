@@ -2,8 +2,10 @@
 import { registry } from "@web/core/registry";
 import { BlockUI } from "@web/core/ui/block_ui";
 import { download } from "@web/core/network/download";
-
-registry.category("ir.actions.report handlers").add("eauzon_xlsx", async function (action) {
+/**
+This handler is responsible for generating XLSX reports.
+*/
+registry.category("ir.actions.report handlers").add("qwerty_xlsx", async function (action) {
     if (action.report_type === 'xlsx') {
         BlockUI;
 	
