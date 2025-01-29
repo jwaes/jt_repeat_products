@@ -1,4 +1,3 @@
-/** @odoo-module **/
 import { registry } from "@web/core/registry";
 import { BlockUI } from "@web/core/ui/block_ui";
 import { download } from "@web/core/network/download";
